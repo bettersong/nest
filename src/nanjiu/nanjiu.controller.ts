@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { NanjiuService } from './nanjiu.service';
 import { CreateNanjiuDto } from './dto/create-nanjiu.dto';
 import { UpdateNanjiuDto } from './dto/update-nanjiu.dto';
@@ -13,7 +13,8 @@ export class NanjiuController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Param() params, @Query() query) {
+    console.log('find', query)
     return this.nanjiuService.findAll();
   }
 
