@@ -1,26 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Request, Patch, Param, Delete,Header, Query, HttpCode, Inject } from '@nestjs/common';
 import { NanjiuService } from './nanjiu.service';
+import { UserService } from 'src/user/user.service';
 import { CreateNanjiuDto } from './dto/create-nanjiu.dto';
 import { UpdateNanjiuDto } from './dto/update-nanjiu.dto';
 
 @Controller('nanjiu')
 export class NanjiuController {
-  constructor(private readonly nanjiuService: NanjiuService) {}
+  constructor(
+    @Inject('NANJIU') private readonly nanjiuService: NanjiuService,
+    @Inject('USER') private readonly userService: UserService,
+    ) {}
 
   @Post()
+  @Header('Cache-Control', 'none')
   create(@Body() createNanjiuDto: CreateNanjiuDto) {
-    return this.nanjiuService.create(createNanjiuDto);
+    console.log('工厂模式', this.userService.findAll())
+    // return true
+    return this.userService.findAll();
   }
 
   @Get()
-  findAll(@Param() params, @Query() query) {
-    console.log('find', query)
+  @HttpCode(202)
+  findAll(@Request() req, @Query() query) {
+    console.log('find', req, query)
     return this.nanjiuService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nanjiuService.findOne(+id);
+  findOne(@Param() params) {
+    console.log('params', params)
+    return this.nanjiuService.findOne(+params.id);
   }
 
   @Patch(':id')

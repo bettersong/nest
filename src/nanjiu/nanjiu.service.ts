@@ -5,7 +5,7 @@ import { UpdateNanjiuDto } from './dto/update-nanjiu.dto';
 @Injectable()
 export class NanjiuService {
   create(createNanjiuDto: CreateNanjiuDto) {
-    return 'This action adds a new nanjiu';
+    return 'This action is nanjiu post';
   }
 
   findAll() {
