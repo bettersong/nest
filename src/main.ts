@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
   app.setGlobalPrefix('api'); // 全局路由前缀
-  app.use(cors()); // 允许跨域
+  app.use(cors()); // 允许跨域.
   app.use(json({ limit: '10mb' })); // 允许上传大文件
   app.use(urlencoded({ extended: true, limit: '10mb' })); // 允许上传大文件
   app.useStaticAssets(join(__dirname, '../static'), {
