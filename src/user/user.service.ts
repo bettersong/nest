@@ -8,7 +8,9 @@ export class UserService {
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
-
+  getHello(): string {
+    return 'Hello user---';
+  }
   findAll() {
     return `This action returns all user`;
   }

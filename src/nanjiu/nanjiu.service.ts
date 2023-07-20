@@ -7,6 +7,9 @@ export class NanjiuService {
   create(createNanjiuDto: CreateNanjiuDto) {
     return 'This action is nanjiu post';
   }
+  getHello(): string {
+    return 'Hello nanjiu---';
+  }
 
   findAll() {
     return `This action returns all nanjiu`;

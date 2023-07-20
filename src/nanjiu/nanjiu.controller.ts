@@ -22,13 +22,13 @@ export class NanjiuController {
   @Get()
   @HttpCode(202)
   findAll(@Request() req, @Query() query) {
-    console.log('find', req, query)
+    // console.log('find', req, query)
     return this.nanjiuService.findAll();
   }
 
   @Get(':id')
   findOne(@Param() params) {
-    console.log('params', params)
+    // console.log('params', params)
     return this.nanjiuService.findOne(+params.id);
   }
 

@@ -9,7 +9,7 @@ export class InfoService {
   }
 
   findAll() {
-    return `This action returns all info`;
+    return `全局模块 all info`;
   }
 
   findOne(id: number) {
