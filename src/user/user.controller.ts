@@ -1,40 +1,57 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Patch,Request, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InfoService } from 'src/info/info.service';
+import { query } from 'express';
 
 @Controller('user')
 export class UserController {
   constructor(
-    private readonly userService: UserService,
-    private readonly infoService: InfoService, // 注入 InfoService
+    private readonly userService: UserService
     ) {}
 
-  @Post()
+  @Post('addUser')
   create(@Body() createUserDto: CreateUserDto) {
-    return this.infoService.findAll() // 调用 InfoService 的 findAll 方法
-
-    // return this.userService.create(createUserDto);
+    // 添加用户
+    return this.userService.add(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Get('getUserInfo') 
+  getUserInfo(@Req() req) {
+    const query = req.query
+    const cookie = req.cookies
+    // console.log('cookie', cookie)
+    // 优先取参数中的userId，没有则取cookie中的uid
+    const userId = query.userId || cookie.uid
+
+    console.log('----userId', userId)
+    
+    // base64加密
+    const token = Buffer.from(userId).toString('base64')
+    console.log('加密后的token', token)
+    // 返回base64加密后的token
+    return {
+      code: 0,
+      data: {
+        userId,
+        // base64加密
+        token,
+        status: 2
+      }
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Post('updateUserInfo')
+  updateUserInfo(@Request() req){
+    console.log('updateUserInfo', req.body)
+    return this.userService.updateUserInfo(req.body)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Get('sendMessage')
+  sendMessage(@Request() req) {
+    return this.userService.sendMessage(req.query);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
+  
 }

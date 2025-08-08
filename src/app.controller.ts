@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(
     private readonly appService: AppService, 
-    @Inject('config') private readonly configService
+    //@Inject('config') private readonly configService // 注入 ConfigService
     ) {}
 
   @Get('/hello')
@@ -15,6 +15,6 @@ export class AppController {
 
   @Get('/hello2')
   get2() {
-    return this.configService.getHello()
+    //return this.configService.getHello() // 调用 ConfigService 的 getHello 方法
   }
 }
